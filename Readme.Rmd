@@ -1,0 +1,13 @@
+---
+title: "Readme"
+author: "HL VAN ZYL 17640296"
+date: "2023-11-18"
+output: html_document
+---
+
+# Purpose 
+
+Illustrate how different fee scales affect clients' overall cumulative returns 
+
+
+# 
