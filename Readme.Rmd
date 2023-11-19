@@ -1,14 +1,48 @@
 ---
-title: "Readme"
-author: "HL VAN ZYL 17640296"
-date: "2023-11-18"
 output: github_document
 ---
+# FM 871 Bonus Practical -HLVZ
 
-# Purpose 
+This repository is dedicated to the bonus practical of the financial econometrics 871 course which investigates the varying impact of different fee levels on cumulative returns. 
 
-Illustrate how different fee scales affect clients' overall cumulative returns 
+```{r, include = FALSE}
+# load libraries
+library(tidyverse);library(lubridate)
+
+```
 
 
-# 
-asdfasdf
+## Tyranny of Fees
+
+We use the fmxdat::Jalshtr dataset which contains TRI data from 2002 to 2021. 
+
+The first step is to transform the daily return to monthly, which is assigned to the `Jalshtr` variable which is achieved in the `code/data_prep.R` script. 
+
+```{r include=FALSE}
+source("code/data_prep.R")
+Jalshtr
+```
+
+
+Next we create a function that converts various scales of annually compounded fees into their monthly equivalent and deduct this from gross returns for that month. Finally calculated the net returns as a percentage of gross returns and compare impact on wealth for R1 million initial investment in 2002. 
+
+
+```{r echo=FALSE, warning=FALSE}
+source("code/Cum_fee_comp.R")
+Cum_Fee_Comparison(Jalshtr, Fee = 50*1e-4, Start = ymd(20020101), 
+                               # Added purely for figure adjustment:
+                               Gap = 3, Lvlset = 7,
+                               mnthfwd = 18)
+```
+
+Let's compare the same but starting from 2010
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Cum_Fee_Comparison(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101), 
+                               # Added purely for figure adjustment:
+                               Gap = 3, Lvlset = 3,
+                               mnthfwd = 18)
+```
+
+
