@@ -1,22 +1,7 @@
-library(tidyverse);library(lubridate)
-
-
-# Data preparation
 
 
 
-Jalshtr <-
-    # First, make the return series monthly:
-    fmxdat::Jalshtr %>%
-    mutate(YM = format(date, "%Y%B")) %>% group_by(YM) %>%
-    filter(date == last(date)) %>% arrange(date) %>%
-    ungroup() %>%
-    mutate(Returns = TRI / lag(TRI) - 1) %>% filter(date > first(date)) %>% select(-TRI, -YM)
-
-
-# create function for cumulative fee comparison
-
-
+# Function to compare
 Cum_Fee_Comparison <- function(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101),
                                # Added purely for figure adjustment:
                                Gap = 3, Lvlset = 5,
@@ -26,7 +11,6 @@ Cum_Fee_Comparison <- function(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101),
     # Remember, we want to find x so that its compound is 10 bps, or: (1+x)^12 = 10*1e-4
     feeconverter <- function(x, Ann_Level) (1+x)^(1/Ann_Level)-1
 
-    # here we enter the `x` or the fee charged (10, 50, 100, 200, 250, 350 bps)
     df_p <-
         Jalshtr %>% filter(date > Start) %>%
         mutate('Return - 10 bps' = Returns - feeconverter(10*1e-4, Ann_Level = 12)) %>%
@@ -75,7 +59,7 @@ Cum_Fee_Comparison <- function(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101),
         fmxdat::plot_order_set( Column = "Type", Order = Ord) %>%
 
         ggplot() +
-        geom_line(aes(date, Gross), color = "darkgreen", size = 1.5, alpha = 0.95) +
+        geom_line(aes(date, Gross), color = "darkgreen", linewidth = 1.5, alpha = 0.95) +
         geom_line(aes(date, CP, color = Type), size = 1.2, alpha = 0.6) +
         # ggrepel::geom_label_repel(data = Txt, aes(date, CP, label = Text ), hjust = 0, color = "darkred", alpha = 0.25, size = 3) +
         geom_text(data = Txt, aes(date, CP, label = Text ), hjust = 0, color = "darkred", size = 3.3) +
@@ -92,4 +76,5 @@ Cum_Fee_Comparison <- function(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101),
     g
 
 }
+
 

@@ -26,25 +26,21 @@ Jalshtr
 
 Next, we create the function `Cum_Fee_Comparison` in the `code/Cum_Fee_Comp.R` script. This function creates a plot which illustrates the cumulative impact of fees on overall wealth. 
 
-This is achieved by converting multiple levels of annually compounded fees as measured in basis points (10, 50, 100, 250, 350) into their monthly equivalent, this is deducted from gross returns for that month which is calculated in `Jalshtr` which yields the net returns for the month. Ratio of net to gross 
+This is achieved by converting multiple levels of annually compounded fees as measured in basis points (10, 50, 100, 250, 350) into their monthly equivalent, this is deducted from gross returns for that month (calculated in `Jalshtr`)  which yields the net returns for the month. The ratio of the cumulative products of net returns to gross returns are calculated and plotted for each fee level at each month, allowing us to see their impact over time. 
 
+This function can take first date of observation as an input. In the associated `Tyranny_of_Fees.html` write-up we illustrate how the compounding effect of fees over time can drastically impacts long term wealth.
+
+## Example of plot in action
+
+Using 2002 as starting point
 
 ```{r echo=FALSE, warning=FALSE}
-source("code/Cum_fee_comp.R")
+source("code/Cum_Fee_Comp.R")
 Cum_Fee_Comparison(Jalshtr, Fee = 50*1e-4, Start = ymd(20020101), 
                                # Added purely for figure adjustment:
                                Gap = 3, Lvlset = 7,
                                mnthfwd = 18)
 ```
 
-Let's compare the same but starting from 2010
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-Cum_Fee_Comparison(Jalshtr, Fee = 50*1e-4, Start = ymd(20100101), 
-                               # Added purely for figure adjustment:
-                               Gap = 3, Lvlset = 3,
-                               mnthfwd = 18)
-```
-
+ 
 
